@@ -16,5 +16,12 @@
   "bugs": {
     "url": "https://github.com/teacher-kiwi/youcanvote-copy/issues"
   },
-  "homepage": "https://github.com/teacher-kiwi/youcanvote-copy#readme"
+  "homepage": "https://github.com/teacher-kiwi/youcanvote-copy#readme",
+  "devDependencies": {
+    "eslint": "^8.19.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.30.1",
+    "prettier": "^2.7.1"
+  }
 }
