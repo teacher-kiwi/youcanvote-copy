@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev-back": "nodemon app/index",
+    "dev-front": "cd app/src/views/front-page && npm start",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky install"
   },
