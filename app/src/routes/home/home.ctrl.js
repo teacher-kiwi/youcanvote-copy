@@ -23,12 +23,14 @@ const ctrl = {
   update: {
     done: async (req, res) => {
       const { _id, token, password } = req.body;
-      const match = await bcrypt.compare(password, token);
-      if (match) {
-        await Vote.updateOne({ _id }, { isDone: true });
-        res.json({ success: true, msg: "투표를 종료하였습니다." });
-      } else {
-        res.json({ success: false, msg: "비밀번호가 다릅니다." });
+      if (password) {
+        const match = await bcrypt.compare(password, token);
+        if (match) {
+          await Vote.updateOne({ _id }, { isDone: true });
+          res.json({ success: true, msg: "투표를 종료하였습니다." });
+        } else {
+          res.json({ success: false, msg: "비밀번호가 다릅니다." });
+        }
       }
     },
 
@@ -51,12 +53,14 @@ const ctrl = {
 
   delete: async (req, res) => {
     const { _id, token, password } = req.body;
-    const match = await bcrypt.compare(password, token);
-    if (match) {
-      await Vote.deleteOne({ _id });
-      res.json({ success: true, msg: "투표를 삭제하였습니다." });
-    } else {
-      res.json({ success: false, msg: "비밀번호가 다릅니다." });
+    if (password) {
+      const match = await bcrypt.compare(password, token);
+      if (match) {
+        await Vote.deleteOne({ _id });
+        res.json({ success: true, msg: "투표를 삭제하였습니다." });
+      } else {
+        res.json({ success: false, msg: "비밀번호가 다릅니다." });
+      }
     }
   },
 };
