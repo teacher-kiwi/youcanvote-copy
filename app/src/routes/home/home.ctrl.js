@@ -7,11 +7,16 @@ const salt = process.env.SALT;
 const ctrl = {
   create: async (req, res) => {
     const { title, password } = req.body;
-    const token = await bcrypt.hash(password, parseInt(salt));
-    Vote.create({ title, token }, (err) => {
-      if (err) res.json({ success: false, msg: "등록 실패" });
-      else res.json({ success: true, msg: "등록 성공" });
-    });
+
+    if (title && password) {
+      const token = await bcrypt.hash(password, parseInt(salt));
+      Vote.create({ title, token }, (err, data) => {
+        if (err) res.json({ success: false, msg: "등록 실패", id: null });
+        else res.json({ success: true, msg: "등록 성공", id: data._id });
+      });
+    } else {
+      res.json({ success: false, msg: "등록 실패", id: null });
+    }
   },
 
   read: async (req, res) => {
@@ -22,12 +27,15 @@ const ctrl = {
 
   update: {
     done: async (req, res) => {
-      const { _id, token, password } = req.body;
+      const { _id, password } = req.body;
+      const { token } = await Vote.findOne({ _id });
+
       if (password) {
         const match = await bcrypt.compare(password, token);
         if (match) {
-          await Vote.updateOne({ _id }, { isDone: true });
-          res.json({ success: true, msg: "투표를 종료하였습니다." });
+          Vote.updateOne({ _id }, { isDone: true }, () => {
+            res.json({ success: true, msg: "투표를 종료하였습니다." });
+          });
         } else {
           res.json({ success: false, msg: "비밀번호가 다릅니다." });
         }
@@ -52,12 +60,15 @@ const ctrl = {
   },
 
   delete: async (req, res) => {
-    const { _id, token, password } = req.body;
+    const { _id, password } = req.body;
+    const { token } = await Vote.findOne({ _id });
+
     if (password) {
       const match = await bcrypt.compare(password, token);
       if (match) {
-        await Vote.deleteOne({ _id });
-        res.json({ success: true, msg: "투표를 삭제하였습니다." });
+        Vote.deleteOne({ _id }, () => {
+          res.json({ success: true, msg: "투표를 삭제하였습니다." });
+        });
       } else {
         res.json({ success: false, msg: "비밀번호가 다릅니다." });
       }
