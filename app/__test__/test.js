@@ -1,4 +1,5 @@
 const app = require("../app");
+const mongoose = require("../src/models/index");
 const request = require("supertest");
 
 describe("test!", () => {
@@ -39,4 +40,8 @@ describe("test!", () => {
     const response = await request(app).post("/delete").send({ _id: id, password: "test" });
     expect(response.body.success).toBe(true);
   });
+});
+
+afterAll(() => {
+  mongoose.connection.close();
 });
