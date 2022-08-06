@@ -1,4 +1,4 @@
-FROM node:16-alpine
+FROM kimoo1/nginx-node:latest
 
 WORKDIR /app
 
@@ -9,5 +9,7 @@ RUN npm ci
 COPY .husky/ ./husky/
 
 COPY app/ ./app/
+
+COPY ./node-server.conf /etc/nginx/conf.d/
 
 ENTRYPOINT ["npm", "run", "dev-back"]
