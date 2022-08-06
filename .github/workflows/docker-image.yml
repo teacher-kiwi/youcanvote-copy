@@ -24,13 +24,37 @@ jobs:
 #     - name: Docker Push
 #       run: docker push ${{ secrets.DOCKER_USER }}/youcanvote-copy:$(date "+%Y%m%d")
 
-    - name: AWS SSM Send-Command(docker pull)
+
+    - name: AWS SSM Send-Command(docker delete)
       uses: peterkimzz/aws-ssm-send-command@master
-      id: ssm
+      id: ssm1
       with:
         aws-region: ${{ secrets.AWS_REGION }}
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         instance-ids: ${{ secrets.INSTANCE_ID }}
         working-directory: /home/ubuntu
-        command: sudo docker rm -f $(sudo docker ps -a -q); sudo docker rmi $(sudo docker images -q); ${{ secrets.DOCKER_USER }}/youcanvote-copy; sudo docker pull ${{ secrets.DOCKER_USER }}/youcanvote-copy:$(date "+%Y%m%d") && sudo docker run -d -p 80:80 -e JWT_PRIVATE_KEY=${{ secrets.JWT_PRIVATE_KEY }} -e SALT=$${{ secrets.SALT }} -e MONGODB_URL=${{ secrets.MONGODB_URL }} ${{ secrets.DOCKER_USER }}/youcanvote-copy:$(date "+%Y%m%d")
+        command: sudo docker rm -f $(sudo docker ps -a -q); sudo docker rmi $(sudo docker images -q)
+
+    - name: AWS SSM Send-Command(docker pull)
+      uses: peterkimzz/aws-ssm-send-command@master
+      id: ssm2
+      with:
+        aws-region: ${{ secrets.AWS_REGION }}
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        instance-ids: ${{ secrets.INSTANCE_ID }}
+        working-directory: /home/ubuntu
+        command: sudo docker pull ${{ secrets.DOCKER_USER }}/youcanvote-copy:$(date "+%Y%m%d")
+
+    - name: AWS SSM Send-Command(docker run)
+      uses: peterkimzz/aws-ssm-send-command@master
+      id: ssm3
+      with:
+        aws-region: ${{ secrets.AWS_REGION }}
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        instance-ids: ${{ secrets.INSTANCE_ID }}
+        working-directory: /home/ubuntu
+        command: sudo docker run -d -p 80:80 -e JWT_PRIVATE_KEY=${{ secrets.JWT_PRIVATE_KEY }} -e SALT=$${{ secrets.SALT }} -e MONGODB_URL=${{ secrets.MONGODB_URL }} ${{ secrets.DOCKER_USER }}/youcanvote-copy:$(date "+%Y%m%d")
+
