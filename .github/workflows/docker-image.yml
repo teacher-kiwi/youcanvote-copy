@@ -33,8 +33,8 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         instance-ids: ${{ secrets.INSTANCE_ID }}
 
-        working-directory: /home/ubuntu/application
-        command: ls -al
+        working-directory: /home/ubuntu
+        command: mkdir app
         comment: Hello world!
 
     # Catch SSM outputs
