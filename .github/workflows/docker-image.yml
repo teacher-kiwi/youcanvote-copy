@@ -14,21 +14,21 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Docker Login
-      env:
-        DOCKER_USER: ${{ secrets.DOCKER_USER }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ${{ secrets.DOCKER_USER }}/youcanvote-copy:$(date "+%Y%m%d")
-    - name: Docker Push
-      run: docker push ${{ secrets.DOCKER_USER }}/youcanvote-copy:$(date "+%Y%m%d")
+#     - name: Docker Login
+#       env:
+#         DOCKER_USER: ${{ secrets.DOCKER_USER }}
+#         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+#       run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+#     - name: Build the Docker image
+#       run: docker build . --file Dockerfile --tag ${{ secrets.DOCKER_USER }}/youcanvote-copy:$(date "+%Y%m%d")
+#     - name: Docker Push
+#       run: docker push ${{ secrets.DOCKER_USER }}/youcanvote-copy:$(date "+%Y%m%d")
       
     - name: AWS SSM Send-Command
       uses: peterkimzz/aws-ssm-send-command@master
       id: ssm
       with:
-        aws-region: ${{ secrets.AWS_REGION }}
+        aws-region: ap-northeast-2c
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         instance-ids: ${{ secrets.INSTANCE_ID }}
