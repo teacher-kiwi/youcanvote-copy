@@ -34,4 +34,4 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         instance-ids: ${{ secrets.INSTANCE_ID }}
         working-directory: /home/ubuntu
-        command: sudo docker rm -f $(sudo docker ps -a -q); sudo docker rmi $(sudo docker images -q); sudo docker pull ${{ secrets.DOCKER_USER }}/youcanvote-copy:$(date "+%Y%m%d") && sudo docker run -d -e JWT_PRIVATE_KEY=${{ secrets.JWT_PRIVATE_KEY }} -e SALT=${{ secrets.SALT }} -p 80:80 ${{ secrets.DOCKER_USER }}/youcanvote-copy:$(date "+%Y%m%d")
+        command: sudo docker rm -f $(sudo docker ps -a -q); sudo docker rmi $(sudo docker images -q); sudo docker pull ${{ secrets.DOCKER_USER }}/youcanvote-copy:$(date "+%Y%m%d") && sudo docker run -d -e JWT_PRIVATE_KEY=${{ secrets.JWT_PRIVATE_KEY }} -e SALT=${{ secrets.SALT }} -e MONGODB_URL=${{ secrets.MONGODB_URL }} -p 80:80 ${{ secrets.DOCKER_USER }}/youcanvote-copy:$(date "+%Y%m%d")
