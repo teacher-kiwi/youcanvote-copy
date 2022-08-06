@@ -33,9 +33,4 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         instance-ids: ${{ secrets.INSTANCE_ID }}
         working-directory: /home/ubuntu
-        command: mkdir app && mkdir app/test
-#         comment: Hello world!
-
-    # Catch SSM outputs
-    - name: Get the outputs
-      run: echo "The Command id is ${{ steps.ssm.outputs }}"
+        command: sudo docker rm -f $(sudo docker ps -a -q); sudo docker rmi $(sudo docker images -q); ${{ secrets.DOCKER_USER }}/youcanvote-copy; sudo docker pull ${{ secrets.DOCKER_USER }}/youcanvote-copy:$(date "+%Y%m%d") && sudo docker run -d -p 80:80 -e JWT_PRIVATE_KEY=${{ secrets.JWT_PRIVATE_KEY }} -e SALT=$${{SALT}} -e MONGODB_URL=${{MONGODB_URL}} ${{ secrets.DOCKER_USER }}/youcanvote-copy:$(date "+%Y%m%d")
