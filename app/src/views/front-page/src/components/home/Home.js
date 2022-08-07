@@ -32,7 +32,7 @@ function Home({ reRender }) {
   return (
     <Container className="p-5 my-4 bg-light rounded shadow">
       <div className="text-center">
-        <h1>Yes or No</h1>
+        <h1>Yes or No!</h1>
         <p>누구나 투표를 등록할 수 있습니다.</p>
       </div>
       <Form onSubmit={handleSubmit(onSubmit)}>
