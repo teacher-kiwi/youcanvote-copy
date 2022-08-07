@@ -8,7 +8,8 @@
     "dev-front": "cd app/src/views/front-page && npm start",
     "test": "jest",
     "prepare": "husky install",
-    "test1": "set NODE_ENV=test && node test"
+    "test1": "set NODE_ENV=test && node test",
+    "build": "npm ci && cd app/src/views/front-page && npm ci && npm run build"
   },
   "lint-staged": {
     "**/*.js": [

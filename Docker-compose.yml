@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  node:
+    container_name: node
+    image: "kimoo1/youcanvote-copy"
+    env_file:
+      - "./.env"
+    ports:
+      - "4000:4000"
+  nginx:
+    container_name: nginx
+    image: "kimoo1/youcanvote-copy"
+    ports:
+      - "80:80"
+    command: nginx -g "daemon off;"

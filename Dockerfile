@@ -1,15 +1,15 @@
 FROM kimoo1/nginx-node:latest
 
-WORKDIR /app
+WORKDIR /youcanvote-copy
 
 COPY package.json package-lock.json ./
-
-RUN npm ci
 
 COPY .husky/ ./husky/
 
 COPY app/ ./app/
 
-COPY ./node-server.conf /etc/nginx/conf.d/
+RUN npm run build
 
-ENTRYPOINT ["npm", "run", "dev-back"]
+COPY nginx.conf /etc/nginx/conf.d/
+
+CMD ["npm", "run", "dev-back"]
