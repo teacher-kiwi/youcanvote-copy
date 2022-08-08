@@ -1,6 +1,10 @@
 const app = require("../app");
-const mongoose = require("../src/models/index");
+const mongoose = require("mongoose");
 const request = require("supertest");
+
+beforeAll(() => {
+  mongoose.connect(process.env.MONGODB_URL);
+});
 
 describe("test!", () => {
   let id;
